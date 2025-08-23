@@ -1,0 +1,7 @@
+project:
+  type: website
+  resources:
+    - "css/"
+    - "js/"
+    - "*.html"
+  output-dir: docs

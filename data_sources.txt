@@ -1,0 +1,30 @@
+SAT:
+2017-2020
+https://nces.ed.gov/programs/digest/d20/tables/xls/tabn226.40.xls
+2018,2021,2022,2023
+https://nces.ed.gov/programs/digest/d23/tables/xls/tabn226.40.xlsx
+
+ACT:
+2013,2017
+https://nces.ed.gov/programs/digest/d17/tables/xls/tabn226.60.xls
+2014,2018
+https://nces.ed.gov/programs/digest/d18/tables/xls/tabn226.60.xls
+2015,2019
+https://nces.ed.gov/programs/digest/d19/tables/xls/tabn226.60.xls
+2016,2020
+https://nces.ed.gov/programs/digest/d20/tables/mrt/MRT_226_60.xlsx
+
+ACT to SAT Conversion Table:
+https://www.act.org/content/act/en/products-and-services/the-act/scores/act-sat-concordance.html
+https://www.act.org/content/dam/act/unsecured/documents/Excel-ACT-SAT-Concordance-Tables.xlsx
+
+NAEP:
+Use the link below to go to the data explorer, you will need to make a login to download the data
+Subject: Math or Reading
+Grade: 4 or 8
+Year: 2013,2015,2017,2019,2022,2024
+Scale: Composite Scale
+Jurisdiction: State -> State - ALL
+Variable: All Students
+Statistic: Average Scores
+https://www.nationsreportcard.gov/ndecore/xplore/NDE

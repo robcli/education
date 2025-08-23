@@ -1,0 +1,442 @@
+---
+title: "Massachusetts is #1 in Education, not Florida"
+format:
+  html:
+    code-fold: true
+jupyter: python3
+---
+
+I was rage-baited by this [article](https://www.usnews.com/news/best-states/articles/2024-05-07/why-florida-is-the-best-state-in-education-and-economy) from U.S. News & World Report, which makes sweeping claims about Florida being the top state in both education and the economy. Adding to the hype were two celebratory press releases from Governor Ron DeSantis, [here](https://www.flgov.com/eog/news/press/2025/governor-ron-desantis-announces-positive-achievements-2025-school-grades) and [here](https://flgov.com/eog/news/press/2025/governor-ron-desantis-announces-student-academic-performance-continues-rise-during), touting supposed gains in Florida’s education system.
+
+However, these claims rest almost entirely on state controlled assessments, where the state determines the content and standards. This raises valid concerns about the objectivity of the data being reported. A more reliable approach would be to examine trends in national standardized assessments, which offer consistent, independent measures across all states. When doing so, a very different picture emerges: Florida’s educational performance has, like much of the nation, declined over time. In contrast, Massachusetts consistently outperforms the rest of the country across nearly every national benchmark highlighting what genuine educational excellence looks like.
+
+Note: It's clear that the U.S. News & World Report article bases much of its education ranking on factors like the cost of higher education and graduation rates from two and four year colleges, metrics that are, frankly, questionable indicators of educational quality. Tuition costs alone are a poor measure without accounting for post-graduation outcomes. As U.S. News should already know from its own college rankings, return on investment, such as graduates’ average earnings, is a far more meaningful metric.
+
+Moreover, graduation rates don’t necessarily reflect academic strength. In some cases, unusually high graduation rates may raise concerns about the rigor and standards of the curriculum, rather than serve as evidence of educational excellence.
+
+### Load the data and requisite packages
+
+```{python}
+import pandas as pd
+import numpy as np
+import seaborn as sns
+import matplotlib.pyplot as plt
+import matplotlib.cm as cm
+import matplotlib.colors as mcolors
+from matplotlib.lines import Line2D
+import scipy
+
+import utils.scores as scores
+import utils.anomaly as anomaly
+import utils.us_map
+
+import warnings
+warnings.filterwarnings("ignore")
+```
+
+```{python}
+states = utils.us_map.main()
+
+paths = ["data/naep/NDECoreExcel_Reading, Grade 8, All students_20250815065213.xlsx",
+         "data/naep/NDECoreExcel_Reading, Grade 4, All students_20250815065450.xlsx",
+         "data/naep/NDECoreExcel_Mathematics, Grade 8, All students_20250815065004.xlsx",
+         "data/naep/NDECoreExcel_Mathematics, Grade 4, All students_20250815065347.xlsx"]
+
+naep_scores = scores.Scores()
+for path in paths:
+    naep_scores = naep_scores.merge(scores.NAEPScores(path))
+```
+
+```{python}
+s1 = scores.SATScores("data/sat/tabn226.40_17_18_19_20.xlsx")
+s2 = scores.SATScores("data/sat/tabn226.40_18_21_22_23.xlsx")
+s2.df = s2.df.query("year!=2018")
+
+paths = ['data/act/tabn226.60_2013_2017.xlsx',
+         'data/act/tabn226.60_2014_2018.xlsx',
+         'data/act/tabn226.60_2015_2019.xlsx',
+         'data/act/tabn226.60_2016_2020.xlsx',
+         'data/act/tabn226.60_2017_2021.xlsx',
+         'data/act/tabn226.60_2018_2022.xlsx',
+         'data/act/tabn226.60_2018_2023.xlsx']
+
+objs = [scores.ACTScores(path) for path in paths]
+objs[0].df = objs[0].df.query("year==2013")
+objs[1].df = objs[1].df.query("year==2014")
+
+test_scores = scores.Scores()
+
+for score in [s1, s2] + objs:
+    test_scores = test_scores.merge(score)
+```
+
+# NAEP Scores
+
+The National Assessment of Educational Progress (NAEP) periodically administers standardized tests in reading and mathematics to 4th and 8th graders nationwide. One of its strengths lies in its rigorous, representative sampling methods, which enable meaningful comparisons across states. As shown in the charts below, Florida performs impressively in 4th grade math and reading, ranking among the top 10 states in 2024. However, by 8th grade, the state’s performance drops sharply, landing near the bottom in both subjects. This suggests that Florida's strong early academic achievement is not sustained through middle school, and as I will demonstrate later, this trend continues into high school.
+
+```{python}
+#| label: fig-naep_individual_sections
+#| fig-cap: NAEP scores across the US by section and grades in 2024. 
+fig, axes = plt.subplots(nrows=2, ncols=2, figsize=(8, 8), layout="tight")
+axes = axes.flatten()
+[ax.set_axis_off() for ax in axes]
+min_value = naep_scores.get_year(2024).df["mean"].min()
+max_value = naep_scores.get_year(2024).df["mean"].max()
+
+for section, ax in zip(sorted(naep_scores.df["section"].unique()), axes):
+    df = naep_scores.get_year(2024).get_section(section).df
+    label = "NAEP " + " ".join(section.split("_")) + "th grade"
+    ax.set_title(f"{label}")
+    map = (states.merge(df,
+                        right_on="location", left_on="NAME")
+           .plot(column="mean",
+                 cmap="crest",
+                 legend=True,
+                 edgecolor="black",
+                 lw=0.25,
+                 legend_kwds={"label": "Score",
+                              "shrink": 0.75,
+                              "orientation": "horizontal",
+                              "pad": 0.01
+                              },
+                 ax=ax))
+
+fig.suptitle("NAEP Scores by Section and Grade (2024)", y=0.88)
+plt.show()
+```
+
+To more easily assess the total academic performance between 4th and 8th graders, the sum of individual NAEP tests were summed into a single aggregate score. Massachusetts clearly is #1 in terms of NAEP performance out of all states (@fig-naep_total). In a separate figure (@fig-naep_total_time), a time series of total NAEP scores are displayed for Massachusetts, Florida, and the national average. As noted by many sources, academic performance on the NAEP has declined across the country for many years and is a cause for concern in our national's educational efforts. Florida has not been immune to this trend. In a table showing the total NAEP scores by state, Florida ranks 26th in 2024 (@tbl-naep_table). 
+
+```{python}
+#| label: fig-naep_total
+#| fig-cap: Total NAEP scores across the US in 2024. Scores from reading and mathematics from 4th and 8th grade were summed for each state. 
+fig, ax = plt.subplots(figsize=(14, 7))
+ax.set_axis_off()
+
+combined_scores_df = naep_scores.df.groupby(
+    ["year", "location"]).agg(total=("mean", "sum")).reset_index()
+
+(states.merge(combined_scores_df.query("year==2024"),
+              left_on="NAME",
+              right_on="location")
+ .plot(column="total",
+       cmap="crest",
+       legend=True,
+       edgecolor="black",
+       lw=0.25,
+       legend_kwds={"label": "NAEP Combined Scores",
+                    "shrink": 0.5,
+                    "orientation": "horizontal",
+                    "pad": 0.05
+                    },
+       ax=ax
+       )
+ )
+
+plt.title("NAEP Combined Reading and Mathematics Score by State (2024)")
+plt.show()
+```
+
+```{python}
+#| label: fig-naep_total_time
+#| fig-cap: Total NAEP scores for Massachusetts, Florida, and the National average over time. 
+compare = ["Massachusetts", "Florida", "National"]
+sns.lineplot(data=combined_scores_df.query("location in @compare"),
+             x="year",
+             y="total",
+             hue="location",
+             marker="o",
+             )
+plt.ylabel("Total Reading and Mathematics NAEP Scores")
+plt.xticks([2013, 2015, 2017, 2019, 2022, 2024])
+plt.legend(title="Location")
+plt.grid()
+plt.show()
+```
+
+# College Admissions Tests
+
+Each year, countless high school students rise early and head to testing centers across the country, ready to prove their college readiness through standardized exams like the SAT and ACT. These tests provide colleges with a consistent benchmark to assess applicants nationwide—one that isn’t influenced by local curriculum differences or [grade inflation](https://eric.ed.gov/?id=ED621326). In the absence of recent nationwide 12th-grade testing through the NAEP, these exams offer a valuable tool for comparing academic performance across state lines. We use data from the National Center for Education Statistics (NCES) which collect the testing results by state.
+
+### Participtation Rates Skew Results
+However, the landscape of standardized testing is far from uniform. The ACT has traditionally dominated in the Midwest, while the SAT remains more common along the East and West Coasts (@fig-test_percents). This geographic divide introduces complications. In states where a test isn't widely taken, participation is typically limited to high-achieving students aiming to stand out which skews the results. As a result, SAT scores tend to appear inflated in ACT-heavy states, and vice versa for ACT scores in SAT-dominant regions (@fig-skewed_scores). Understanding these patterns is essential when using test scores to compare student performance across the country.
+
+
+```{python}
+#| label: fig-test_percents
+#| fig-cap: Percentage of college bound seniors taking either the SAT or ACT during 2024. 
+fig, ax = plt.subplots(ncols=2, figsize=(8, 4), layout="tight")
+
+ax = ax.flatten()
+[a.set_axis_off() for a in ax]
+
+vmin = test_scores.get_year(2023).df["percent"].min()
+vmax = test_scores.get_year(2023).df["percent"].max()
+cmap = "flare"
+
+(states.merge(test_scores.get_year(2023).get_section("total").query("test=='SAT'").df,
+              left_on="NAME",
+              right_on="location")
+ .plot(column="percent", cmap=cmap, vmin=vmin,
+       vmax=vmax, edgecolor="black", lw=0.25,
+       ax=ax[0])
+ )
+ax[0].set_title("SAT", fontsize=16, y=0.95)
+
+(states.merge(test_scores.get_year(2023).get_section("composite").query("test=='ACT'").df,
+              left_on="NAME",
+              right_on="location").plot(column="percent", cmap=cmap, vmin=vmin, vmax=vmax, edgecolor="black",
+                                        lw=0.25, ax=ax[1])
+ )
+ax[1].set_title("ACT", fontsize=16, y=0.95)
+
+mappable = cm.ScalarMappable(norm=mcolors.Normalize(vmin, vmax), cmap=cmap)
+cbar = fig.colorbar(mappable, fig.add_axes(
+    [0.1, 0.1, 0.8, 0.05]), orientation="horizontal")
+cbar.set_ticks([vmin, 20, 40, 60, 80, vmax])
+
+plt.suptitle(
+    "Percentage of College Bound Seniors in 2024 that took:", y=0.85, fontsize=20)
+plt.show()
+```
+
+
+```{python}
+#| label: fig-skewed_scores
+#| fig-cap: Average SAT and ACT score of college bound seniors during 2024. 
+fig, ax = plt.subplots(ncols=2, figsize=(8, 4), layout="tight")
+
+ax = ax.flatten()
+[a.set_axis_off() for a in ax]
+cmap = "crest"
+
+(states.merge(test_scores.get_year(2023).get_section("total").query("test=='SAT'").df,
+              left_on="NAME",
+              right_on="location")
+ .plot(column="mean", cmap=cmap, edgecolor="black",
+       lw=0.25, legend=True, ax=ax[0],
+       legend_kwds={"label": "Total SAT Score",
+                    "shrink": 0.75,
+                    "orientation": "horizontal",
+                    "pad": 0.05
+                    }
+       )
+ )
+ax[0].set_title("SAT", fontsize=16, y=0.90)
+
+(states.merge(test_scores.get_year(2023).get_section("composite").query("test=='ACT'").df,
+              left_on="NAME",
+              right_on="location")
+ .plot(column="mean", cmap=cmap, edgecolor="black",
+       lw=0.25, legend=True, ax=ax[1],
+       legend_kwds={"label": "Composite ACT Score",
+                    "shrink": 0.75,
+                    "orientation": "horizontal",
+                    "pad": 0.05
+                    }
+       )
+ )
+ax[1].set_title("ACT", fontsize=16, y=0.90)
+
+plt.suptitle("College Admissions Test Scores:", y=0.875, fontsize=20)
+plt.show()
+```
+
+### A Relationship Exists between Particpitation Rates and Scores
+
+In the figure below (@fig-per_score_cor), a state's percent participtation in the SAT or ACT by high school seniors is plotted against the average SAT or ACT score in that state, respectively. The data span multiple years between 2013-2023 for the ACT and 2017-2023 for the SAT. Clearly, a relationship exists between participation rates and the average score in a state. 
+
+The question is now how to minimize this discrepancy between states with varying participating rates in the SAT and ACT? One strategy is to convert ACT scores to SAT scores in states whose students favor the ACT. This way, we can more objectively see the performance of the average student on college admissions testing. An official conversion exists between the ACT and SAT based on concordance studies. However, the official conversion only records discrete ACT scores while the average ACT scores include decimals. A line of best fit was used to smooth the conversion table as shown below to better interpolate the ACT scores (@fig-act_coversion). 
+
+
+```{python}
+#| label: fig-per_score_cor
+#| fig-cap: Effect of student participation on average college admissions test scores.
+def custom_anomaly(scores, ax):
+    def regress(df, func):
+        coeffs, pred = anomaly.fit(df["percent"], df["mean"], func)
+        r2 = anomaly.calculate_r2(df["mean"], pred)
+        return coeffs, pred, r2
+
+    def plot(df, coeffs, r2, ax):
+        lin_coeffs, plaw_coeffs = coeffs
+        lin_r2, plaw_r2 = r2
+
+        sns.scatterplot(data=df,
+                        x="percent",
+                        y="mean",
+                        ax=ax)
+
+        x = np.linspace(df["percent"].min(), df["percent"].max(), num=100)
+        ax.plot(x, anomaly.plaw(x, *plaw_coeffs), color="red")
+        ax.plot(x, anomaly.linear(x, *lin_coeffs), color="orange")
+
+        h = [Line2D([0], [0], color="red", label=f"power law, R^2: {plaw_r2:.4f}"),
+             Line2D([0], [0], color="orange", label=f"linear, R^2: {lin_r2:.4f}")]
+        ax.legend(handles=h)
+        ax.set_ylabel("Average Score")
+        ax.set_xlabel("Percentage Participation")
+        return fig
+
+    def apply(df, ax):
+        lin_coeffs, lin_pred, lin_r2 = regress(df, anomaly.linear)
+        plaw_coeffs, plaw_pred, plaw_r2 = regress(df, anomaly.plaw)
+        return plot(df, (lin_coeffs, plaw_coeffs), (lin_r2, plaw_r2), ax)
+
+    return apply(scores, ax=ax)
+
+
+fig, ax = plt.subplots(ncols=2, figsize=(8, 4))
+
+custom_anomaly(test_scores.query("test=='SAT'").get_section("total").df, ax[0])
+custom_anomaly(test_scores.query("test=='ACT'").get_section("composite").df, ax[1])
+ax[0].set_ylabel("Average Total SAT Score")
+ax[1].set_ylabel("Average Composite ACT Score")
+plt.suptitle("Effect of State Participation on College Admission Test Scores")
+plt.show()
+```
+
+
+```{python}
+#| label: fig-act_coversion
+#| fig-cap: Conversion between ACT to SAT Scores.
+act_sat_conv = pd.read_excel("data/act_sat_conversion.xlsx", skiprows=1).sort_values("ACT")
+
+def act_to_sat(x):
+    return np.interp(x, act_sat_conv["ACT"], act_sat_conv["SAT"])
+
+sns.lineplot(data=act_sat_conv,
+             x="ACT",
+             y="SAT",
+             marker="o")
+
+plt.ylabel("SAT Score Equivalent")
+plt.xlabel("ACT Score")
+plt.title("Official ACT to SAT Concordance")
+plt.grid()
+plt.show()
+```
+
+Even after converting ACT scores to their SAT equivalents in states where the ACT is more commonly taken, the underlying pattern remains (@fig-combined_cor). The effect persists largely due to states where only a small percentage of students take either test. Participation in college admissions exams has declined significantly, especially after many colleges adopted test optional policies in response to the COVID-19 pandemic. For instance, in 2021, only 17% of Oregon students took the SAT, while just 20% took the ACT. Similarly, in California in 2022, only 21% of students sat for the SAT, and a mere 4% took the ACT. This reduced participation increases sampling bias, making it harder to draw accurate comparisons across states.
+
+To address this bias, we propose comparing states based on their deviation from predicted performance. Specifically, we calculate the difference between each state’s actual performance and the expected performance at its level of test participation, represented by the orange trend line in the plot below. If a state (shown as a blue dot) appears above the orange line, it is performing better than average for its level of participation. Conversely, if a state falls below the line, it is underperforming relative to the expected outcome at that participation rate. 
+
+Note: A new line is fitted for each year to achieve better predictions although the plots are not shown. 
+
+
+```{python}
+#| label: fig-combined_cor
+#| fig-cap: Student participation in either the SAT or ACT remain low in certain states.
+act_scores = test_scores.get_section("composite").df
+act_scores_conv_df = act_scores.assign(SAT_equiv=act_to_sat(act_scores["mean"]))
+                                       
+sat_scores = test_scores.get_section("total").df
+combined_scores = (sat_scores.merge(act_scores_conv_df, on=["location", "year"])
+                             .rename({"percent_x": "SAT_percent",
+                                      "mean_x": "SAT_mean",
+                                      "percent_y": "ACT_percent"}, axis=1))
+
+majority_mean = np.where(combined_scores["ACT_percent"] > combined_scores["SAT_percent"],
+                         combined_scores["SAT_equiv"],
+                         combined_scores["SAT_mean"])
+
+majority_percent = np.where(combined_scores["ACT_percent"] > combined_scores["SAT_percent"],
+                            combined_scores["ACT_percent"],
+                            combined_scores["SAT_percent"])
+
+combined_scores = (combined_scores.assign(mean=majority_mean)
+                                  .assign(percent=majority_percent))
+
+anomaly.anomaly(combined_scores, separate_years=False)
+plt.ylabel("Average SAT Or ACT Equivalent Score")
+plt.title("Effect on State Participation in College Admissions Testing on Scores")
+combined_corrected_scores = anomaly.anomaly(
+    combined_scores, separate_years=True, suppress=True
+)
+combined_corrected_scores = combined_corrected_scores.assign(
+    anom_c=combined_corrected_scores["mean"]-combined_corrected_scores["lin_pred"]
+)
+```
+
+After plotting the percentage participtation corrected performance by state, a similar result to the NAEP scores before materializes (@fig-corrected_scores). Massachusetts comes out on top in the 2023 results while Florida lags behind at 43th (@tbl-corrected_scores). The raw SAT and ACT score tables are included below, but take in mind the sampling bias when interpreting those results (@tbl-sat and @tbl-act). 
+
+
+```{python}
+#| label: fig-corrected_scores
+#| fig-cap: College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels.
+fig, ax = plt.subplots(figsize=(8, 8))
+
+states.merge(combined_corrected_scores.query("year==2023"),
+             left_on="NAME",
+             right_on="location").plot(column="anom_c", cmap="crest", edgecolor="black",
+                                       lw=0.25, legend=True, legend_kwds={"label": "Percent corrected performance",
+                                                                          "shrink": 0.75,
+                                                                          "orientation": "horizontal",
+                                                                          "pad": 0.05
+                                                                          },
+                                       ax=ax)
+
+plt.title("Percentage Corrected Performance by State")
+ax.set_axis_off()
+```
+
+## Acknowledgements
+
+Thank you to Oscar for sharing code on how to [create maps](https://dev.to/oscarleo/how-to-create-data-maps-of-the-united-states-with-matplotlib-p9i) of the US. 
+Thank you to NCES and NAEP for developing the data used for the analysis.
+
+# Tables
+
+```{python}
+#| label: tbl-naep_table
+#| tbl-cap: "Total NAEP Scores by State"
+non_states = ["DoDEA", "Puerto Rico", "District of Columbia", "National"]
+
+rankings = (combined_scores_df.query("location not in @non_states")
+            .pivot_table(index="location", columns="year", values="total")
+            .sort_values(2024, ascending=False)
+            .reset_index()
+            )
+
+rankings.columns.name = "2024 Rankings"
+rankings.index = rankings.index + 1
+rankings.round(1)
+```
+
+```{python}
+#| label: tbl-corrected_scores
+#| tbl-cap: "College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels."
+non_states = ["District of Columbia", "United States"]
+combined_corrected_scores_states = combined_corrected_scores.query(
+    "location not in @non_states")
+
+rankings = (combined_corrected_scores_states.pivot_table(index="location", columns="year", values="anom_c")
+            .sort_values(2023, ascending=False)
+            .reset_index())
+rankings.columns.name = "2023 Rankings"
+rankings.index = rankings.index + 1
+rankings.round(1)
+```
+
+
+```{python}
+#| label: tbl-sat
+#| tbl-cap: "SAT performance by state"
+rankings = (combined_corrected_scores_states.pivot_table(index="location", columns="year", values="SAT_mean")
+            .sort_values(2023, ascending=False)
+            .reset_index())
+rankings.columns.name = "2023 Rankings"
+rankings.index = rankings.index + 1
+rankings.round(1)
+```
+
+```{python}
+#| label: tbl-act
+#| tbl-cap: "ACT performance by state"
+rankings = (combined_corrected_scores_states.pivot_table(index="location", columns="year", values="mean_y")
+            .sort_values(2023, ascending=False)
+            .reset_index())
+rankings.columns.name = "2023 Rankings"
+rankings.index = rankings.index + 1
+rankings.round(1)
+```
