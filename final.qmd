@@ -105,7 +105,7 @@ fig.suptitle("NAEP Scores by Section and Grade (2024)", y=0.88)
 plt.show()
 ```
 
-To more easily assess the total academic performance between 4th and 8th graders, the sum of individual NAEP tests were summed into a single aggregate score. Massachusetts clearly is #1 in terms of NAEP performance out of all states (@fig-naep_total). In a separate figure (@fig-naep_total_time), a time series of total NAEP scores are displayed for Massachusetts, Florida, and the national average. As noted by many sources, academic performance on the NAEP has declined across the country for many years and is a cause for concern in our national's educational efforts. Florida has not been immune to this trend. In a table showing the total NAEP scores by state, Florida ranks 26th in 2024 (@tbl-naep_table). 
+To more easily assess the total academic performance between 4th and 8th graders, the sum of individual NAEP tests were summed into a single aggregate score. Massachusetts clearly is #1 in terms of NAEP performance out of all states (@fig-naep_total and @fig-naep_barplot). In a separate figure (@fig-naep_total_time), a time series of total NAEP scores are displayed for Massachusetts, Florida, and the national average. As noted by many sources, academic performance on the NAEP has declined across the country for many years and is a cause for concern in our national's educational efforts. Florida has not been immune to this trend. In a table showing the total NAEP scores by state, Florida ranks 26th in 2024 (@tbl-naep_table). 
 
 ```{python}
 #| label: fig-naep_total
@@ -134,6 +134,30 @@ combined_scores_df = naep_scores.df.groupby(
  )
 
 plt.title("NAEP Combined Reading and Mathematics Score by State (2024)")
+plt.show()
+```
+
+```{python}
+#| label: fig-naep_barplot
+#| fig-cap: States ranked by total NAEP scores (2024).
+non_states = ["DoDEA", "Puerto Rico", "District of Columbia", "National"]
+barplot_df = (combined_scores_df.query("year==2024")
+              .query("location not in @non_states")
+              .sort_values("total").
+              reset_index(drop=True))
+
+fig, ax = plt.subplots(figsize=(8,4), layout="tight")
+
+sns.barplot(data=barplot_df,
+            x=barplot_df.index,
+            y="total",
+            edgecolor="black")
+plt.grid(color="black", axis="y")
+ax.set_xticks(barplot_df.index)
+ax.set_xticklabels(barplot_df["location"], rotation=90)
+ax.set_ylabel("Total NAEP Score (2024)")
+ax.set_xlabel("State")
+plt.ylim([900, 1040])
 plt.show()
 ```
 
@@ -358,12 +382,12 @@ combined_corrected_scores = combined_corrected_scores.assign(
 )
 ```
 
-After plotting the percentage participtation corrected performance by state, a similar result to the NAEP scores before materializes (@fig-corrected_scores). Massachusetts comes out on top in the 2023 results while Florida lags behind at 43th (@tbl-corrected_scores). The raw SAT and ACT score tables are included below, but take in mind the sampling bias when interpreting those results (@tbl-sat and @tbl-act). 
+After plotting the percentage participtation corrected performance by state, a similar result to the NAEP scores before materializes (@fig-corrected_scores). Massachusetts comes out on top in the 2023 results while Florida lags behind at 43th (@fig-sat_act_barplot and @tbl-corrected_scores). The raw SAT and ACT score tables are included below, but take in mind the sampling bias when interpreting those results (@tbl-sat and @tbl-act). 
 
 
 ```{python}
 #| label: fig-corrected_scores
-#| fig-cap: College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels.
+#| fig-cap: College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels (2023).
 fig, ax = plt.subplots(figsize=(8, 8))
 
 states.merge(combined_corrected_scores.query("year==2023"),
@@ -379,6 +403,65 @@ states.merge(combined_corrected_scores.query("year==2023"),
 plt.title("Percentage Corrected Performance by State")
 ax.set_axis_off()
 ```
+
+```{python}
+#| label: fig-sat_act_barplot
+#| fig-cap: States ranked by SAT or SAT equivalent performance corrected for state participtation levels (2023).
+non_states = ["District of Columbia", "United States"]
+barplot_df = (combined_corrected_scores.query("year==2023")
+              .query("location not in @non_states")
+              .sort_values("anom_c").
+              reset_index(drop=True))
+
+fig, ax = plt.subplots(figsize=(8,5), layout="tight")
+
+sns.barplot(data=barplot_df,
+            x=barplot_df.index,
+            y="anom_c",
+            edgecolor="black")
+plt.grid(color="black", axis="y")
+ax.set_xticks(barplot_df.index)
+ax.set_xticklabels(barplot_df["location"], rotation=90)
+ax.set_ylabel("Percent Corrected Performance (2023)")
+ax.set_xlabel("State")
+plt.show()
+```
+
+### SAT Performance over Time
+
+The previous figures illustrated the performance on college admissions tests nationwide in 2023. To get a better understanding of the overall trends over time, let us focus on SAT scores in Florida where the SAT is taken by a majority of high schoolers. Since low participation can artificially inflate SAT scores, it is important to consider both scores and participation rates together when analyzing trends. The figure below shows average SAT scores over time for Florida and the United States as a whole. Aside from a one time spike in 2021, when the number of test takers dropped precipitously, the overall national trend in SAT scores has been a steady decline. (@fig-sat_time).
+
+```{python}
+#| label: fig-sat_time
+#| fig-cap: Average sat scores over time.
+compare = ["Florida", "United States"]
+
+fig, ax = plt.subplots(ncols=2, figsize=(8,4), layout="tight")
+sns.lineplot(data=test_scores.get_section("total").get_states(compare).df,
+             x="year",
+             y="mean",
+             hue="location",
+             marker="o",
+             ax=ax[0])
+ax[0].get_legend().remove()
+ax[0].set_ylabel("Average SAT Score")
+ax[0].grid()
+
+sns.lineplot(data=test_scores.get_section("total").get_states(compare).df,
+             x="year",
+             y="percent",
+             hue="location",
+             marker="o",
+             ax=ax[1])
+ax[1].set_ylabel("SAT Participation Rate")
+ax[1].legend(loc="center right", title="Location")
+ax[1].grid()
+plt.show()
+```
+
+# Conclusion
+
+The educational success of our students is one of the most critical priorities for our nation. To effectively address this challenge, we must look beyond headlines and political narratives and focus on objective indicators that reveal troubling and persistent trends in student achievement. Test scores are declining at every level, from elementary to high school. Rather than sensationalizing underperformance or manipulating state-by-state comparisons to mask the reality, we must confront the root causes of our academic decline. Even historically strong states like Massachusetts, while still outperforming much of the country, are showing signs of struggle when compared to past performance. It is my hope that the data presented here sheds light on the current state of education in the United States and sparks a deeper, more honest conversation about how to move forward.
 
 ## Acknowledgements
 
