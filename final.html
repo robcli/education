@@ -144,7 +144,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Moreover, graduation rates don’t necessarily reflect academic strength. In some cases, unusually high graduation rates may raise concerns about the rigor and standards of the curriculum, rather than serve as evidence of educational excellence.</p>
 <section id="load-the-data-and-requisite-packages" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-data-and-requisite-packages">Load the data and requisite packages</h3>
-<div id="446b0cd7" class="cell" data-execution_count="1">
+<div id="688eceea" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -164,7 +164,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="f5f67b36" class="cell" data-execution_count="2">
+<div id="e98bb504" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> utils.us_map.main()</span>
@@ -179,7 +179,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    naep_scores <span class="op">=</span> naep_scores.merge(scores.NAEPScores(path))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="b40ec510" class="cell" data-execution_count="3">
+<div id="8231b15f" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> scores.SATScores(<span class="st">"data/sat/tabn226.40_17_18_19_20.xlsx"</span>)</span>
@@ -251,7 +251,7 @@ Figure&nbsp;1: NAEP scores across the US by section and grades in 2024.
 </div>
 </div>
 </div>
-<p>To more easily assess the total academic performance between 4th and 8th graders, the sum of individual NAEP tests were summed into a single aggregate score. Massachusetts clearly is #1 in terms of NAEP performance out of all states (<a href="#fig-naep_total" class="quarto-xref">Figure&nbsp;2</a>). In a separate figure (<a href="#fig-naep_total_time" class="quarto-xref">Figure&nbsp;3</a>), a time series of total NAEP scores are displayed for Massachusetts, Florida, and the national average. As noted by many sources, academic performance on the NAEP has declined across the country for many years and is a cause for concern in our national’s educational efforts. Florida has not been immune to this trend. In a table showing the total NAEP scores by state, Florida ranks 26th in 2024 (<a href="#tbl-naep_table" class="quarto-xref">Table&nbsp;1</a>).</p>
+<p>To more easily assess the total academic performance between 4th and 8th graders, the sum of individual NAEP tests were summed into a single aggregate score. Massachusetts clearly is #1 in terms of NAEP performance out of all states (<a href="#fig-naep_total" class="quarto-xref">Figure&nbsp;2</a> and <a href="#fig-naep_barplot" class="quarto-xref">Figure&nbsp;3</a>). In a separate figure (<a href="#fig-naep_total_time" class="quarto-xref">Figure&nbsp;4</a>), a time series of total NAEP scores are displayed for Massachusetts, Florida, and the national average. As noted by many sources, academic performance on the NAEP has declined across the country for many years and is a cause for concern in our national’s educational efforts. Florida has not been immune to this trend. In a table showing the total NAEP scores by state, Florida ranks 26th in 2024 (<a href="#tbl-naep_table" class="quarto-xref">Table&nbsp;1</a>).</p>
 <div id="cell-fig-naep_total" class="cell" data-execution_count="5">
 <details class="code-fold">
 <summary>Code</summary>
@@ -294,21 +294,57 @@ Figure&nbsp;2: Total NAEP scores across the US in 2024. Scores from reading and 
 </div>
 </div>
 </div>
-<div id="cell-fig-naep_total_time" class="cell" data-execution_count="6">
+<div id="cell-fig-naep_barplot" class="cell" data-execution_count="6">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>compare <span class="op">=</span> [<span class="st">"Massachusetts"</span>, <span class="st">"Florida"</span>, <span class="st">"National"</span>]</span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>combined_scores_df.query(<span class="st">"location in @compare"</span>),</span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>             x<span class="op">=</span><span class="st">"year"</span>,</span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>             y<span class="op">=</span><span class="st">"total"</span>,</span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>             hue<span class="op">=</span><span class="st">"location"</span>,</span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>             marker<span class="op">=</span><span class="st">"o"</span>,</span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>             )</span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Total Reading and Mathematics NAEP Scores"</span>)</span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">2013</span>, <span class="dv">2015</span>, <span class="dv">2017</span>, <span class="dv">2019</span>, <span class="dv">2022</span>, <span class="dv">2024</span>])</span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">"Location"</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>non_states <span class="op">=</span> [<span class="st">"DoDEA"</span>, <span class="st">"Puerto Rico"</span>, <span class="st">"District of Columbia"</span>, <span class="st">"National"</span>]</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>barplot_df <span class="op">=</span> (combined_scores_df.query(<span class="st">"year==2024"</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>              .query(<span class="st">"location not in @non_states"</span>)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>              .sort_values(<span class="st">"total"</span>).</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>              reset_index(drop<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">4</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>barplot_df,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span>barplot_df.index,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span><span class="st">"total"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>            edgecolor<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>plt.grid(color<span class="op">=</span><span class="st">"black"</span>, axis<span class="op">=</span><span class="st">"y"</span>)</span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(barplot_df.index)</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels(barplot_df[<span class="st">"location"</span>], rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Total NAEP Score (2024)"</span>)</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"State"</span>)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>plt.ylim([<span class="dv">900</span>, <span class="dv">1040</span>])</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-naep_barplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-naep_barplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="final_files/figure-html/fig-naep_barplot-output-1.png" width="758" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-naep_barplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;3: States ranked by total NAEP scores (2024).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-fig-naep_total_time" class="cell" data-execution_count="7">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>compare <span class="op">=</span> [<span class="st">"Massachusetts"</span>, <span class="st">"Florida"</span>, <span class="st">"National"</span>]</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>combined_scores_df.query(<span class="st">"location in @compare"</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>             x<span class="op">=</span><span class="st">"year"</span>,</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>             y<span class="op">=</span><span class="st">"total"</span>,</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>             hue<span class="op">=</span><span class="st">"location"</span>,</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>             marker<span class="op">=</span><span class="st">"o"</span>,</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>             )</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Total Reading and Mathematics NAEP Scores"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>plt.xticks([<span class="dv">2013</span>, <span class="dv">2015</span>, <span class="dv">2017</span>, <span class="dv">2019</span>, <span class="dv">2022</span>, <span class="dv">2024</span>])</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>plt.legend(title<span class="op">=</span><span class="st">"Location"</span>)</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-naep_total_time" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -317,7 +353,7 @@ Figure&nbsp;2: Total NAEP scores across the US in 2024. Scores from reading and 
 <img src="final_files/figure-html/fig-naep_total_time-output-1.png" width="601" height="429" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-naep_total_time-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;3: Total NAEP scores for Massachusetts, Florida, and the National average over time.
+Figure&nbsp;4: Total NAEP scores for Massachusetts, Florida, and the National average over time.
 </figcaption>
 </figure>
 </div>
@@ -329,43 +365,43 @@ Figure&nbsp;3: Total NAEP scores for Massachusetts, Florida, and the National av
 <p>Each year, countless high school students rise early and head to testing centers across the country, ready to prove their college readiness through standardized exams like the SAT and ACT. These tests provide colleges with a consistent benchmark to assess applicants nationwide—one that isn’t influenced by local curriculum differences or <a href="https://eric.ed.gov/?id=ED621326">grade inflation</a>. In the absence of recent nationwide 12th-grade testing through the NAEP, these exams offer a valuable tool for comparing academic performance across state lines. We use data from the National Center for Education Statistics (NCES) which collect the testing results by state.</p>
 <section id="participtation-rates-skew-results" class="level3">
 <h3 class="anchored" data-anchor-id="participtation-rates-skew-results">Participtation Rates Skew Results</h3>
-<p>However, the landscape of standardized testing is far from uniform. The ACT has traditionally dominated in the Midwest, while the SAT remains more common along the East and West Coasts (<a href="#fig-test_percents" class="quarto-xref">Figure&nbsp;4</a>). This geographic divide introduces complications. In states where a test isn’t widely taken, participation is typically limited to high-achieving students aiming to stand out which skews the results. As a result, SAT scores tend to appear inflated in ACT-heavy states, and vice versa for ACT scores in SAT-dominant regions (<a href="#fig-skewed_scores" class="quarto-xref">Figure&nbsp;5</a>). Understanding these patterns is essential when using test scores to compare student performance across the country.</p>
-<div id="cell-fig-test_percents" class="cell" data-execution_count="7">
+<p>However, the landscape of standardized testing is far from uniform. The ACT has traditionally dominated in the Midwest, while the SAT remains more common along the East and West Coasts (<a href="#fig-test_percents" class="quarto-xref">Figure&nbsp;5</a>). This geographic divide introduces complications. In states where a test isn’t widely taken, participation is typically limited to high-achieving students aiming to stand out which skews the results. As a result, SAT scores tend to appear inflated in ACT-heavy states, and vice versa for ACT scores in SAT-dominant regions (<a href="#fig-skewed_scores" class="quarto-xref">Figure&nbsp;6</a>). Understanding these patterns is essential when using test scores to compare student performance across the country.</p>
+<div id="cell-fig-test_percents" class="cell" data-execution_count="8">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.flatten()</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>[a.set_axis_off() <span class="cf">for</span> a <span class="kw">in</span> ax]</span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>vmin <span class="op">=</span> test_scores.get_year(<span class="dv">2023</span>).df[<span class="st">"percent"</span>].<span class="bu">min</span>()</span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>vmax <span class="op">=</span> test_scores.get_year(<span class="dv">2023</span>).df[<span class="st">"percent"</span>].<span class="bu">max</span>()</span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> <span class="st">"flare"</span></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"total"</span>).query(<span class="st">"test=='SAT'"</span>).df,</span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>)</span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a> .plot(column<span class="op">=</span><span class="st">"percent"</span>, cmap<span class="op">=</span>cmap, vmin<span class="op">=</span>vmin,</span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>       vmax<span class="op">=</span>vmax, edgecolor<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="fl">0.25</span>,</span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>       ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a> )</span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"SAT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.95</span>)</span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"composite"</span>).query(<span class="st">"test=='ACT'"</span>).df,</span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>).plot(column<span class="op">=</span><span class="st">"percent"</span>, cmap<span class="op">=</span>cmap, vmin<span class="op">=</span>vmin, vmax<span class="op">=</span>vmax, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>                                        lw<span class="op">=</span><span class="fl">0.25</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a> )</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"ACT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.95</span>)</span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>mappable <span class="op">=</span> cm.ScalarMappable(norm<span class="op">=</span>mcolors.Normalize(vmin, vmax), cmap<span class="op">=</span>cmap)</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(mappable, fig.add_axes(</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">0.05</span>]), orientation<span class="op">=</span><span class="st">"horizontal"</span>)</span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>cbar.set_ticks([vmin, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>, vmax])</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>plt.suptitle(</span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Percentage of College Bound Seniors in 2024 that took:"</span>, y<span class="op">=</span><span class="fl">0.85</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.flatten()</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>[a.set_axis_off() <span class="cf">for</span> a <span class="kw">in</span> ax]</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>vmin <span class="op">=</span> test_scores.get_year(<span class="dv">2023</span>).df[<span class="st">"percent"</span>].<span class="bu">min</span>()</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>vmax <span class="op">=</span> test_scores.get_year(<span class="dv">2023</span>).df[<span class="st">"percent"</span>].<span class="bu">max</span>()</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> <span class="st">"flare"</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"total"</span>).query(<span class="st">"test=='SAT'"</span>).df,</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>)</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a> .plot(column<span class="op">=</span><span class="st">"percent"</span>, cmap<span class="op">=</span>cmap, vmin<span class="op">=</span>vmin,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>       vmax<span class="op">=</span>vmax, edgecolor<span class="op">=</span><span class="st">"black"</span>, lw<span class="op">=</span><span class="fl">0.25</span>,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>       ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a> )</span>
+<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"SAT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.95</span>)</span>
+<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"composite"</span>).query(<span class="st">"test=='ACT'"</span>).df,</span>
+<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
+<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>).plot(column<span class="op">=</span><span class="st">"percent"</span>, cmap<span class="op">=</span>cmap, vmin<span class="op">=</span>vmin, vmax<span class="op">=</span>vmax, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>                                        lw<span class="op">=</span><span class="fl">0.25</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a> )</span>
+<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"ACT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.95</span>)</span>
+<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>mappable <span class="op">=</span> cm.ScalarMappable(norm<span class="op">=</span>mcolors.Normalize(vmin, vmax), cmap<span class="op">=</span>cmap)</span>
+<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>cbar <span class="op">=</span> fig.colorbar(mappable, fig.add_axes(</span>
+<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>    [<span class="fl">0.1</span>, <span class="fl">0.1</span>, <span class="fl">0.8</span>, <span class="fl">0.05</span>]), orientation<span class="op">=</span><span class="st">"horizontal"</span>)</span>
+<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>cbar.set_ticks([vmin, <span class="dv">20</span>, <span class="dv">40</span>, <span class="dv">60</span>, <span class="dv">80</span>, vmax])</span>
+<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>plt.suptitle(</span>
+<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Percentage of College Bound Seniors in 2024 that took:"</span>, y<span class="op">=</span><span class="fl">0.85</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-test_percents" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -374,51 +410,51 @@ Figure&nbsp;3: Total NAEP scores for Massachusetts, Florida, and the National av
 <img src="final_files/figure-html/fig-test_percents-output-1.png" width="762" height="330" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-test_percents-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;4: Percentage of college bound seniors taking either the SAT or ACT during 2024.
+Figure&nbsp;5: Percentage of college bound seniors taking either the SAT or ACT during 2024.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-fig-skewed_scores" class="cell" data-execution_count="8">
+<div id="cell-fig-skewed_scores" class="cell" data-execution_count="9">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.flatten()</span>
-<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>[a.set_axis_off() <span class="cf">for</span> a <span class="kw">in</span> ax]</span>
-<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> <span class="st">"crest"</span></span>
-<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"total"</span>).query(<span class="st">"test=='SAT'"</span>).df,</span>
-<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
-<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>)</span>
-<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a> .plot(column<span class="op">=</span><span class="st">"mean"</span>, cmap<span class="op">=</span>cmap, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
-<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>       lw<span class="op">=</span><span class="fl">0.25</span>, legend<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>],</span>
-<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>       legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Total SAT Score"</span>,</span>
-<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"shrink"</span>: <span class="fl">0.75</span>,</span>
-<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"orientation"</span>: <span class="st">"horizontal"</span>,</span>
-<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"pad"</span>: <span class="fl">0.05</span></span>
-<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>                    }</span>
-<span id="cb8-17"><a href="#cb8-17" aria-hidden="true" tabindex="-1"></a>       )</span>
-<span id="cb8-18"><a href="#cb8-18" aria-hidden="true" tabindex="-1"></a> )</span>
-<span id="cb8-19"><a href="#cb8-19" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"SAT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.90</span>)</span>
-<span id="cb8-20"><a href="#cb8-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-21"><a href="#cb8-21" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"composite"</span>).query(<span class="st">"test=='ACT'"</span>).df,</span>
-<span id="cb8-22"><a href="#cb8-22" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
-<span id="cb8-23"><a href="#cb8-23" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>)</span>
-<span id="cb8-24"><a href="#cb8-24" aria-hidden="true" tabindex="-1"></a> .plot(column<span class="op">=</span><span class="st">"mean"</span>, cmap<span class="op">=</span>cmap, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
-<span id="cb8-25"><a href="#cb8-25" aria-hidden="true" tabindex="-1"></a>       lw<span class="op">=</span><span class="fl">0.25</span>, legend<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>],</span>
-<span id="cb8-26"><a href="#cb8-26" aria-hidden="true" tabindex="-1"></a>       legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Composite ACT Score"</span>,</span>
-<span id="cb8-27"><a href="#cb8-27" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"shrink"</span>: <span class="fl">0.75</span>,</span>
-<span id="cb8-28"><a href="#cb8-28" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"orientation"</span>: <span class="st">"horizontal"</span>,</span>
-<span id="cb8-29"><a href="#cb8-29" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"pad"</span>: <span class="fl">0.05</span></span>
-<span id="cb8-30"><a href="#cb8-30" aria-hidden="true" tabindex="-1"></a>                    }</span>
-<span id="cb8-31"><a href="#cb8-31" aria-hidden="true" tabindex="-1"></a>       )</span>
-<span id="cb8-32"><a href="#cb8-32" aria-hidden="true" tabindex="-1"></a> )</span>
-<span id="cb8-33"><a href="#cb8-33" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"ACT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.90</span>)</span>
-<span id="cb8-34"><a href="#cb8-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb8-35"><a href="#cb8-35" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"College Admissions Test Scores:"</span>, y<span class="op">=</span><span class="fl">0.875</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
-<span id="cb8-36"><a href="#cb8-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>ax <span class="op">=</span> ax.flatten()</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>[a.set_axis_off() <span class="cf">for</span> a <span class="kw">in</span> ax]</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>cmap <span class="op">=</span> <span class="st">"crest"</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"total"</span>).query(<span class="st">"test=='SAT'"</span>).df,</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>)</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a> .plot(column<span class="op">=</span><span class="st">"mean"</span>, cmap<span class="op">=</span>cmap, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>       lw<span class="op">=</span><span class="fl">0.25</span>, legend<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax[<span class="dv">0</span>],</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>       legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Total SAT Score"</span>,</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"shrink"</span>: <span class="fl">0.75</span>,</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"orientation"</span>: <span class="st">"horizontal"</span>,</span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"pad"</span>: <span class="fl">0.05</span></span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>                    }</span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>       )</span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a> )</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_title(<span class="st">"SAT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.90</span>)</span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>(states.merge(test_scores.get_year(<span class="dv">2023</span>).get_section(<span class="st">"composite"</span>).query(<span class="st">"test=='ACT'"</span>).df,</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>              left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>              right_on<span class="op">=</span><span class="st">"location"</span>)</span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a> .plot(column<span class="op">=</span><span class="st">"mean"</span>, cmap<span class="op">=</span>cmap, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>       lw<span class="op">=</span><span class="fl">0.25</span>, legend<span class="op">=</span><span class="va">True</span>, ax<span class="op">=</span>ax[<span class="dv">1</span>],</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>       legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Composite ACT Score"</span>,</span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"shrink"</span>: <span class="fl">0.75</span>,</span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"orientation"</span>: <span class="st">"horizontal"</span>,</span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"pad"</span>: <span class="fl">0.05</span></span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>                    }</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>       )</span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a> )</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_title(<span class="st">"ACT"</span>, fontsize<span class="op">=</span><span class="dv">16</span>, y<span class="op">=</span><span class="fl">0.90</span>)</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"College Admissions Test Scores:"</span>, y<span class="op">=</span><span class="fl">0.875</span>, fontsize<span class="op">=</span><span class="dv">20</span>)</span>
+<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-skewed_scores" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -427,7 +463,7 @@ Figure&nbsp;4: Percentage of college bound seniors taking either the SAT or ACT 
 <img src="final_files/figure-html/fig-skewed_scores-output-1.png" width="758" height="347" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-skewed_scores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;5: Average SAT and ACT score of college bound seniors during 2024.
+Figure&nbsp;6: Average SAT and ACT score of college bound seniors during 2024.
 </figcaption>
 </figure>
 </div>
@@ -436,53 +472,53 @@ Figure&nbsp;5: Average SAT and ACT score of college bound seniors during 2024.
 </section>
 <section id="a-relationship-exists-between-particpitation-rates-and-scores" class="level3">
 <h3 class="anchored" data-anchor-id="a-relationship-exists-between-particpitation-rates-and-scores">A Relationship Exists between Particpitation Rates and Scores</h3>
-<p>In the figure below (<a href="#fig-per_score_cor" class="quarto-xref">Figure&nbsp;6</a>), a state’s percent participtation in the SAT or ACT by high school seniors is plotted against the average SAT or ACT score in that state, respectively. The data span multiple years between 2013-2023 for the ACT and 2017-2023 for the SAT. Clearly, a relationship exists between participation rates and the average score in a state.</p>
-<p>The question is now how to minimize this discrepancy between states with varying participating rates in the SAT and ACT? One strategy is to convert ACT scores to SAT scores in states whose students favor the ACT. This way, we can more objectively see the performance of the average student on college admissions testing. An official conversion exists between the ACT and SAT based on concordance studies. However, the official conversion only records discrete ACT scores while the average ACT scores include decimals. A line of best fit was used to smooth the conversion table as shown below to better interpolate the ACT scores (<a href="#fig-act_coversion" class="quarto-xref">Figure&nbsp;7</a>).</p>
-<div id="cell-fig-per_score_cor" class="cell" data-execution_count="9">
+<p>In the figure below (<a href="#fig-per_score_cor" class="quarto-xref">Figure&nbsp;7</a>), a state’s percent participtation in the SAT or ACT by high school seniors is plotted against the average SAT or ACT score in that state, respectively. The data span multiple years between 2013-2023 for the ACT and 2017-2023 for the SAT. Clearly, a relationship exists between participation rates and the average score in a state.</p>
+<p>The question is now how to minimize this discrepancy between states with varying participating rates in the SAT and ACT? One strategy is to convert ACT scores to SAT scores in states whose students favor the ACT. This way, we can more objectively see the performance of the average student on college admissions testing. An official conversion exists between the ACT and SAT based on concordance studies. However, the official conversion only records discrete ACT scores while the average ACT scores include decimals. A line of best fit was used to smooth the conversion table as shown below to better interpolate the ACT scores (<a href="#fig-act_coversion" class="quarto-xref">Figure&nbsp;8</a>).</p>
+<div id="cell-fig-per_score_cor" class="cell" data-execution_count="10">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> custom_anomaly(scores, ax):</span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> regress(df, func):</span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>        coeffs, pred <span class="op">=</span> anomaly.fit(df[<span class="st">"percent"</span>], df[<span class="st">"mean"</span>], func)</span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>        r2 <span class="op">=</span> anomaly.calculate_r2(df[<span class="st">"mean"</span>], pred)</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> coeffs, pred, r2</span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plot(df, coeffs, r2, ax):</span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>        lin_coeffs, plaw_coeffs <span class="op">=</span> coeffs</span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>        lin_r2, plaw_r2 <span class="op">=</span> r2</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>        sns.scatterplot(data<span class="op">=</span>df,</span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>                        x<span class="op">=</span><span class="st">"percent"</span>,</span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>                        y<span class="op">=</span><span class="st">"mean"</span>,</span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>                        ax<span class="op">=</span>ax)</span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.linspace(df[<span class="st">"percent"</span>].<span class="bu">min</span>(), df[<span class="st">"percent"</span>].<span class="bu">max</span>(), num<span class="op">=</span><span class="dv">100</span>)</span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, anomaly.plaw(x, <span class="op">*</span>plaw_coeffs), color<span class="op">=</span><span class="st">"red"</span>)</span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, anomaly.linear(x, <span class="op">*</span>lin_coeffs), color<span class="op">=</span><span class="st">"orange"</span>)</span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>        h <span class="op">=</span> [Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="ss">f"power law, R^2: </span><span class="sc">{</span>plaw_r2<span class="sc">:.4f}</span><span class="ss">"</span>),</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>             Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">"orange"</span>, label<span class="op">=</span><span class="ss">f"linear, R^2: </span><span class="sc">{</span>lin_r2<span class="sc">:.4f}</span><span class="ss">"</span>)]</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>        ax.legend(handles<span class="op">=</span>h)</span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"Average Score"</span>)</span>
-<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Percentage Participation"</span>)</span>
-<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
-<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">apply</span>(df, ax):</span>
-<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>        lin_coeffs, lin_pred, lin_r2 <span class="op">=</span> regress(df, anomaly.linear)</span>
-<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>        plaw_coeffs, plaw_pred, plaw_r2 <span class="op">=</span> regress(df, anomaly.plaw)</span>
-<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> plot(df, (lin_coeffs, plaw_coeffs), (lin_r2, plaw_r2), ax)</span>
-<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">apply</span>(scores, ax<span class="op">=</span>ax)</span>
-<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
-<span id="cb9-36"><a href="#cb9-36" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-37"><a href="#cb9-37" aria-hidden="true" tabindex="-1"></a>custom_anomaly(test_scores.query(<span class="st">"test=='SAT'"</span>).get_section(<span class="st">"total"</span>).df, ax[<span class="dv">0</span>])</span>
-<span id="cb9-38"><a href="#cb9-38" aria-hidden="true" tabindex="-1"></a>custom_anomaly(test_scores.query(<span class="st">"test=='ACT'"</span>).get_section(<span class="st">"composite"</span>).df, ax[<span class="dv">1</span>])</span>
-<span id="cb9-39"><a href="#cb9-39" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"Average Total SAT Score"</span>)</span>
-<span id="cb9-40"><a href="#cb9-40" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"Average Composite ACT Score"</span>)</span>
-<span id="cb9-41"><a href="#cb9-41" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Effect of State Participation on College Admission Test Scores"</span>)</span>
-<span id="cb9-42"><a href="#cb9-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> custom_anomaly(scores, ax):</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> regress(df, func):</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>        coeffs, pred <span class="op">=</span> anomaly.fit(df[<span class="st">"percent"</span>], df[<span class="st">"mean"</span>], func)</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>        r2 <span class="op">=</span> anomaly.calculate_r2(df[<span class="st">"mean"</span>], pred)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> coeffs, pred, r2</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> plot(df, coeffs, r2, ax):</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>        lin_coeffs, plaw_coeffs <span class="op">=</span> coeffs</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>        lin_r2, plaw_r2 <span class="op">=</span> r2</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>        sns.scatterplot(data<span class="op">=</span>df,</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>                        x<span class="op">=</span><span class="st">"percent"</span>,</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>                        y<span class="op">=</span><span class="st">"mean"</span>,</span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>                        ax<span class="op">=</span>ax)</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> np.linspace(df[<span class="st">"percent"</span>].<span class="bu">min</span>(), df[<span class="st">"percent"</span>].<span class="bu">max</span>(), num<span class="op">=</span><span class="dv">100</span>)</span>
+<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, anomaly.plaw(x, <span class="op">*</span>plaw_coeffs), color<span class="op">=</span><span class="st">"red"</span>)</span>
+<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a>        ax.plot(x, anomaly.linear(x, <span class="op">*</span>lin_coeffs), color<span class="op">=</span><span class="st">"orange"</span>)</span>
+<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>        h <span class="op">=</span> [Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">"red"</span>, label<span class="op">=</span><span class="ss">f"power law, R^2: </span><span class="sc">{</span>plaw_r2<span class="sc">:.4f}</span><span class="ss">"</span>),</span>
+<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a>             Line2D([<span class="dv">0</span>], [<span class="dv">0</span>], color<span class="op">=</span><span class="st">"orange"</span>, label<span class="op">=</span><span class="ss">f"linear, R^2: </span><span class="sc">{</span>lin_r2<span class="sc">:.4f}</span><span class="ss">"</span>)]</span>
+<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a>        ax.legend(handles<span class="op">=</span>h)</span>
+<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a>        ax.set_ylabel(<span class="st">"Average Score"</span>)</span>
+<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a>        ax.set_xlabel(<span class="st">"Percentage Participation"</span>)</span>
+<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> fig</span>
+<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="bu">apply</span>(df, ax):</span>
+<span id="cb10-28"><a href="#cb10-28" aria-hidden="true" tabindex="-1"></a>        lin_coeffs, lin_pred, lin_r2 <span class="op">=</span> regress(df, anomaly.linear)</span>
+<span id="cb10-29"><a href="#cb10-29" aria-hidden="true" tabindex="-1"></a>        plaw_coeffs, plaw_pred, plaw_r2 <span class="op">=</span> regress(df, anomaly.plaw)</span>
+<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> plot(df, (lin_coeffs, plaw_coeffs), (lin_r2, plaw_r2), ax)</span>
+<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">apply</span>(scores, ax<span class="op">=</span>ax)</span>
+<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-34"><a href="#cb10-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-35"><a href="#cb10-35" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">4</span>))</span>
+<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a>custom_anomaly(test_scores.query(<span class="st">"test=='SAT'"</span>).get_section(<span class="st">"total"</span>).df, ax[<span class="dv">0</span>])</span>
+<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>custom_anomaly(test_scores.query(<span class="st">"test=='ACT'"</span>).get_section(<span class="st">"composite"</span>).df, ax[<span class="dv">1</span>])</span>
+<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"Average Total SAT Score"</span>)</span>
+<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"Average Composite ACT Score"</span>)</span>
+<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>plt.suptitle(<span class="st">"Effect of State Participation on College Admission Test Scores"</span>)</span>
+<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-per_score_cor" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -491,30 +527,30 @@ Figure&nbsp;5: Average SAT and ACT score of college bound seniors during 2024.
 <img src="final_files/figure-html/fig-per_score_cor-output-1.png" width="676" height="394" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-per_score_cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;6: Effect of student participation on average college admissions test scores.
+Figure&nbsp;7: Effect of student participation on average college admissions test scores.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<div id="cell-fig-act_coversion" class="cell" data-execution_count="10">
+<div id="cell-fig-act_coversion" class="cell" data-execution_count="11">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>act_sat_conv <span class="op">=</span> pd.read_excel(<span class="st">"data/act_sat_conversion.xlsx"</span>, skiprows<span class="op">=</span><span class="dv">1</span>).sort_values(<span class="st">"ACT"</span>)</span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> act_to_sat(x):</span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.interp(x, act_sat_conv[<span class="st">"ACT"</span>], act_sat_conv[<span class="st">"SAT"</span>])</span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>act_sat_conv,</span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>             x<span class="op">=</span><span class="st">"ACT"</span>,</span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>             y<span class="op">=</span><span class="st">"SAT"</span>,</span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>             marker<span class="op">=</span><span class="st">"o"</span>)</span>
-<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"SAT Score Equivalent"</span>)</span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"ACT Score"</span>)</span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Official ACT to SAT Concordance"</span>)</span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>act_sat_conv <span class="op">=</span> pd.read_excel(<span class="st">"data/act_sat_conversion.xlsx"</span>, skiprows<span class="op">=</span><span class="dv">1</span>).sort_values(<span class="st">"ACT"</span>)</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> act_to_sat(x):</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> np.interp(x, act_sat_conv[<span class="st">"ACT"</span>], act_sat_conv[<span class="st">"SAT"</span>])</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>act_sat_conv,</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>             x<span class="op">=</span><span class="st">"ACT"</span>,</span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>             y<span class="op">=</span><span class="st">"SAT"</span>,</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a>             marker<span class="op">=</span><span class="st">"o"</span>)</span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"SAT Score Equivalent"</span>)</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>plt.xlabel(<span class="st">"ACT Score"</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Official ACT to SAT Concordance"</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>plt.grid()</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-act_coversion" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -523,47 +559,47 @@ Figure&nbsp;6: Effect of student participation on average college admissions tes
 <img src="final_files/figure-html/fig-act_coversion-output-1.png" width="601" height="449" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-act_coversion-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;7: Conversion between ACT to SAT Scores.
+Figure&nbsp;8: Conversion between ACT to SAT Scores.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>Even after converting ACT scores to their SAT equivalents in states where the ACT is more commonly taken, the underlying pattern remains (<a href="#fig-combined_cor" class="quarto-xref">Figure&nbsp;8</a>). The effect persists largely due to states where only a small percentage of students take either test. Participation in college admissions exams has declined significantly, especially after many colleges adopted test optional policies in response to the COVID-19 pandemic. For instance, in 2021, only 17% of Oregon students took the SAT, while just 20% took the ACT. Similarly, in California in 2022, only 21% of students sat for the SAT, and a mere 4% took the ACT. This reduced participation increases sampling bias, making it harder to draw accurate comparisons across states.</p>
+<p>Even after converting ACT scores to their SAT equivalents in states where the ACT is more commonly taken, the underlying pattern remains (<a href="#fig-combined_cor" class="quarto-xref">Figure&nbsp;9</a>). The effect persists largely due to states where only a small percentage of students take either test. Participation in college admissions exams has declined significantly, especially after many colleges adopted test optional policies in response to the COVID-19 pandemic. For instance, in 2021, only 17% of Oregon students took the SAT, while just 20% took the ACT. Similarly, in California in 2022, only 21% of students sat for the SAT, and a mere 4% took the ACT. This reduced participation increases sampling bias, making it harder to draw accurate comparisons across states.</p>
 <p>To address this bias, we propose comparing states based on their deviation from predicted performance. Specifically, we calculate the difference between each state’s actual performance and the expected performance at its level of test participation, represented by the orange trend line in the plot below. If a state (shown as a blue dot) appears above the orange line, it is performing better than average for its level of participation. Conversely, if a state falls below the line, it is underperforming relative to the expected outcome at that participation rate.</p>
 <p>Note: A new line is fitted for each year to achieve better predictions although the plots are not shown.</p>
-<div id="cell-fig-combined_cor" class="cell" data-execution_count="11">
+<div id="cell-fig-combined_cor" class="cell" data-execution_count="12">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>act_scores <span class="op">=</span> test_scores.get_section(<span class="st">"composite"</span>).df</span>
-<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>act_scores_conv_df <span class="op">=</span> act_scores.assign(SAT_equiv<span class="op">=</span>act_to_sat(act_scores[<span class="st">"mean"</span>]))</span>
-<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>                                       </span>
-<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>sat_scores <span class="op">=</span> test_scores.get_section(<span class="st">"total"</span>).df</span>
-<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>combined_scores <span class="op">=</span> (sat_scores.merge(act_scores_conv_df, on<span class="op">=</span>[<span class="st">"location"</span>, <span class="st">"year"</span>])</span>
-<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>                             .rename({<span class="st">"percent_x"</span>: <span class="st">"SAT_percent"</span>,</span>
-<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"mean_x"</span>: <span class="st">"SAT_mean"</span>,</span>
-<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"percent_y"</span>: <span class="st">"ACT_percent"</span>}, axis<span class="op">=</span><span class="dv">1</span>))</span>
-<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>majority_mean <span class="op">=</span> np.where(combined_scores[<span class="st">"ACT_percent"</span>] <span class="op">&gt;</span> combined_scores[<span class="st">"SAT_percent"</span>],</span>
-<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a>                         combined_scores[<span class="st">"SAT_equiv"</span>],</span>
-<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>                         combined_scores[<span class="st">"SAT_mean"</span>])</span>
-<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>majority_percent <span class="op">=</span> np.where(combined_scores[<span class="st">"ACT_percent"</span>] <span class="op">&gt;</span> combined_scores[<span class="st">"SAT_percent"</span>],</span>
-<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>                            combined_scores[<span class="st">"ACT_percent"</span>],</span>
-<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>                            combined_scores[<span class="st">"SAT_percent"</span>])</span>
-<span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>combined_scores <span class="op">=</span> (combined_scores.assign(mean<span class="op">=</span>majority_mean)</span>
-<span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a>                                  .assign(percent<span class="op">=</span>majority_percent))</span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a>anomaly.anomaly(combined_scores, separate_years<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Average SAT Or ACT Equivalent Score"</span>)</span>
-<span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Effect on State Participation in College Admissions Testing on Scores"</span>)</span>
-<span id="cb11-24"><a href="#cb11-24" aria-hidden="true" tabindex="-1"></a>combined_corrected_scores <span class="op">=</span> anomaly.anomaly(</span>
-<span id="cb11-25"><a href="#cb11-25" aria-hidden="true" tabindex="-1"></a>    combined_scores, separate_years<span class="op">=</span><span class="va">True</span>, suppress<span class="op">=</span><span class="va">True</span></span>
-<span id="cb11-26"><a href="#cb11-26" aria-hidden="true" tabindex="-1"></a>)</span>
-<span id="cb11-27"><a href="#cb11-27" aria-hidden="true" tabindex="-1"></a>combined_corrected_scores <span class="op">=</span> combined_corrected_scores.assign(</span>
-<span id="cb11-28"><a href="#cb11-28" aria-hidden="true" tabindex="-1"></a>    anom_c<span class="op">=</span>combined_corrected_scores[<span class="st">"mean"</span>]<span class="op">-</span>combined_corrected_scores[<span class="st">"lin_pred"</span>]</span>
-<span id="cb11-29"><a href="#cb11-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>act_scores <span class="op">=</span> test_scores.get_section(<span class="st">"composite"</span>).df</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>act_scores_conv_df <span class="op">=</span> act_scores.assign(SAT_equiv<span class="op">=</span>act_to_sat(act_scores[<span class="st">"mean"</span>]))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>                                       </span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>sat_scores <span class="op">=</span> test_scores.get_section(<span class="st">"total"</span>).df</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>combined_scores <span class="op">=</span> (sat_scores.merge(act_scores_conv_df, on<span class="op">=</span>[<span class="st">"location"</span>, <span class="st">"year"</span>])</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                             .rename({<span class="st">"percent_x"</span>: <span class="st">"SAT_percent"</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"mean_x"</span>: <span class="st">"SAT_mean"</span>,</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                                      <span class="st">"percent_y"</span>: <span class="st">"ACT_percent"</span>}, axis<span class="op">=</span><span class="dv">1</span>))</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>majority_mean <span class="op">=</span> np.where(combined_scores[<span class="st">"ACT_percent"</span>] <span class="op">&gt;</span> combined_scores[<span class="st">"SAT_percent"</span>],</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                         combined_scores[<span class="st">"SAT_equiv"</span>],</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>                         combined_scores[<span class="st">"SAT_mean"</span>])</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>majority_percent <span class="op">=</span> np.where(combined_scores[<span class="st">"ACT_percent"</span>] <span class="op">&gt;</span> combined_scores[<span class="st">"SAT_percent"</span>],</span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>                            combined_scores[<span class="st">"ACT_percent"</span>],</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a>                            combined_scores[<span class="st">"SAT_percent"</span>])</span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-18"><a href="#cb12-18" aria-hidden="true" tabindex="-1"></a>combined_scores <span class="op">=</span> (combined_scores.assign(mean<span class="op">=</span>majority_mean)</span>
+<span id="cb12-19"><a href="#cb12-19" aria-hidden="true" tabindex="-1"></a>                                  .assign(percent<span class="op">=</span>majority_percent))</span>
+<span id="cb12-20"><a href="#cb12-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-21"><a href="#cb12-21" aria-hidden="true" tabindex="-1"></a>anomaly.anomaly(combined_scores, separate_years<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb12-22"><a href="#cb12-22" aria-hidden="true" tabindex="-1"></a>plt.ylabel(<span class="st">"Average SAT Or ACT Equivalent Score"</span>)</span>
+<span id="cb12-23"><a href="#cb12-23" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Effect on State Participation in College Admissions Testing on Scores"</span>)</span>
+<span id="cb12-24"><a href="#cb12-24" aria-hidden="true" tabindex="-1"></a>combined_corrected_scores <span class="op">=</span> anomaly.anomaly(</span>
+<span id="cb12-25"><a href="#cb12-25" aria-hidden="true" tabindex="-1"></a>    combined_scores, separate_years<span class="op">=</span><span class="va">True</span>, suppress<span class="op">=</span><span class="va">True</span></span>
+<span id="cb12-26"><a href="#cb12-26" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb12-27"><a href="#cb12-27" aria-hidden="true" tabindex="-1"></a>combined_corrected_scores <span class="op">=</span> combined_corrected_scores.assign(</span>
+<span id="cb12-28"><a href="#cb12-28" aria-hidden="true" tabindex="-1"></a>    anom_c<span class="op">=</span>combined_corrected_scores[<span class="st">"mean"</span>]<span class="op">-</span>combined_corrected_scores[<span class="st">"lin_pred"</span>]</span>
+<span id="cb12-29"><a href="#cb12-29" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-combined_cor" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -572,30 +608,30 @@ Figure&nbsp;7: Conversion between ACT to SAT Scores.
 <img src="final_files/figure-html/fig-combined_cor-output-1.png" width="615" height="449" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-combined_cor-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;8: Student participation in either the SAT or ACT remain low in certain states.
+Figure&nbsp;9: Student participation in either the SAT or ACT remain low in certain states.
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
-<p>After plotting the percentage participtation corrected performance by state, a similar result to the NAEP scores before materializes (<a href="#fig-corrected_scores" class="quarto-xref">Figure&nbsp;9</a>). Massachusetts comes out on top in the 2023 results while Florida lags behind at 43th (<a href="#tbl-corrected_scores" class="quarto-xref">Table&nbsp;2</a>). The raw SAT and ACT score tables are included below, but take in mind the sampling bias when interpreting those results (<a href="#tbl-sat" class="quarto-xref">Table&nbsp;3</a> and <a href="#tbl-act" class="quarto-xref">Table&nbsp;4</a>).</p>
-<div id="cell-fig-corrected_scores" class="cell" data-execution_count="12">
+<p>After plotting the percentage participtation corrected performance by state, a similar result to the NAEP scores before materializes (<a href="#fig-corrected_scores" class="quarto-xref">Figure&nbsp;10</a>). Massachusetts comes out on top in the 2023 results while Florida lags behind at 43th (<a href="#fig-sat_act_barplot" class="quarto-xref">Figure&nbsp;11</a> and <a href="#tbl-corrected_scores" class="quarto-xref">Table&nbsp;2</a>). The raw SAT and ACT score tables are included below, but take in mind the sampling bias when interpreting those results (<a href="#tbl-sat" class="quarto-xref">Table&nbsp;3</a> and <a href="#tbl-act" class="quarto-xref">Table&nbsp;4</a>).</p>
+<div id="cell-fig-corrected_scores" class="cell" data-execution_count="13">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
-<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>states.merge(combined_corrected_scores.query(<span class="st">"year==2023"</span>),</span>
-<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>             left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
-<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>             right_on<span class="op">=</span><span class="st">"location"</span>).plot(column<span class="op">=</span><span class="st">"anom_c"</span>, cmap<span class="op">=</span><span class="st">"crest"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
-<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>                                       lw<span class="op">=</span><span class="fl">0.25</span>, legend<span class="op">=</span><span class="va">True</span>, legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Percent corrected performance"</span>,</span>
-<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>                                                                          <span class="st">"shrink"</span>: <span class="fl">0.75</span>,</span>
-<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>                                                                          <span class="st">"orientation"</span>: <span class="st">"horizontal"</span>,</span>
-<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>                                                                          <span class="st">"pad"</span>: <span class="fl">0.05</span></span>
-<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>                                                                          },</span>
-<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>                                       ax<span class="op">=</span>ax)</span>
-<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Percentage Corrected Performance by State"</span>)</span>
-<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>, <span class="dv">8</span>))</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>states.merge(combined_corrected_scores.query(<span class="st">"year==2023"</span>),</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>             left_on<span class="op">=</span><span class="st">"NAME"</span>,</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>             right_on<span class="op">=</span><span class="st">"location"</span>).plot(column<span class="op">=</span><span class="st">"anom_c"</span>, cmap<span class="op">=</span><span class="st">"crest"</span>, edgecolor<span class="op">=</span><span class="st">"black"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>                                       lw<span class="op">=</span><span class="fl">0.25</span>, legend<span class="op">=</span><span class="va">True</span>, legend_kwds<span class="op">=</span>{<span class="st">"label"</span>: <span class="st">"Percent corrected performance"</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>                                                                          <span class="st">"shrink"</span>: <span class="fl">0.75</span>,</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>                                                                          <span class="st">"orientation"</span>: <span class="st">"horizontal"</span>,</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>                                                                          <span class="st">"pad"</span>: <span class="fl">0.05</span></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>                                                                          },</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>                                       ax<span class="op">=</span>ax)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>plt.title(<span class="st">"Percentage Corrected Performance by State"</span>)</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>ax.set_axis_off()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-display">
 <div id="fig-corrected_scores" class="quarto-float quarto-figure quarto-figure-center anchored">
@@ -604,13 +640,96 @@ Figure&nbsp;8: Student participation in either the SAT or ACT remain low in cert
 <img src="final_files/figure-html/fig-corrected_scores-output-1.png" width="614" height="495" class="figure-img">
 </div>
 <figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-corrected_scores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-Figure&nbsp;9: College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels.
+Figure&nbsp;10: College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels (2023).
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+<div id="cell-fig-sat_act_barplot" class="cell" data-execution_count="14">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>non_states <span class="op">=</span> [<span class="st">"District of Columbia"</span>, <span class="st">"United States"</span>]</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>barplot_df <span class="op">=</span> (combined_corrected_scores.query(<span class="st">"year==2023"</span>)</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>              .query(<span class="st">"location not in @non_states"</span>)</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>              .sort_values(<span class="st">"anom_c"</span>).</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>              reset_index(drop<span class="op">=</span><span class="va">True</span>))</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">5</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>sns.barplot(data<span class="op">=</span>barplot_df,</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>            x<span class="op">=</span>barplot_df.index,</span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>            y<span class="op">=</span><span class="st">"anom_c"</span>,</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>            edgecolor<span class="op">=</span><span class="st">"black"</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>plt.grid(color<span class="op">=</span><span class="st">"black"</span>, axis<span class="op">=</span><span class="st">"y"</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>ax.set_xticks(barplot_df.index)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>ax.set_xticklabels(barplot_df[<span class="st">"location"</span>], rotation<span class="op">=</span><span class="dv">90</span>)</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>ax.set_ylabel(<span class="st">"Percent Corrected Performance (2023)"</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>ax.set_xlabel(<span class="st">"State"</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-sat_act_barplot" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sat_act_barplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="final_files/figure-html/fig-sat_act_barplot-output-1.png" width="758" height="470" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sat_act_barplot-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;11: States ranked by SAT or SAT equivalent performance corrected for state participtation levels (2023).
 </figcaption>
 </figure>
 </div>
 </div>
 </div>
 </section>
+<section id="sat-performance-over-time" class="level3">
+<h3 class="anchored" data-anchor-id="sat-performance-over-time">SAT Performance over Time</h3>
+<p>The previous figures illustrated the performance on college admissions tests nationwide in 2023. To get a better understanding of the overall trends over time, let us focus on SAT scores in Florida where the SAT is taken by a majority of high schoolers. Since low participation can artificially inflate SAT scores, it is important to consider both scores and participation rates together when analyzing trends. The figure below shows average SAT scores over time for Florida and the United States as a whole. Aside from a one time spike in 2021, when the number of test takers dropped precipitously, the overall national trend in SAT scores has been a steady decline. (<a href="#fig-sat_time" class="quarto-xref">Figure&nbsp;12</a>).</p>
+<div id="cell-fig-sat_time" class="cell" data-execution_count="15">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>compare <span class="op">=</span> [<span class="st">"Florida"</span>, <span class="st">"United States"</span>]</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>fig, ax <span class="op">=</span> plt.subplots(ncols<span class="op">=</span><span class="dv">2</span>, figsize<span class="op">=</span>(<span class="dv">8</span>,<span class="dv">4</span>), layout<span class="op">=</span><span class="st">"tight"</span>)</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>test_scores.get_section(<span class="st">"total"</span>).get_states(compare).df,</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>             x<span class="op">=</span><span class="st">"year"</span>,</span>
+<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>             y<span class="op">=</span><span class="st">"mean"</span>,</span>
+<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a>             hue<span class="op">=</span><span class="st">"location"</span>,</span>
+<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>             marker<span class="op">=</span><span class="st">"o"</span>,</span>
+<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>             ax<span class="op">=</span>ax[<span class="dv">0</span>])</span>
+<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].get_legend().remove()</span>
+<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].set_ylabel(<span class="st">"Average SAT Score"</span>)</span>
+<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">0</span>].grid()</span>
+<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>sns.lineplot(data<span class="op">=</span>test_scores.get_section(<span class="st">"total"</span>).get_states(compare).df,</span>
+<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>             x<span class="op">=</span><span class="st">"year"</span>,</span>
+<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>             y<span class="op">=</span><span class="st">"percent"</span>,</span>
+<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>             hue<span class="op">=</span><span class="st">"location"</span>,</span>
+<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>             marker<span class="op">=</span><span class="st">"o"</span>,</span>
+<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>             ax<span class="op">=</span>ax[<span class="dv">1</span>])</span>
+<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].set_ylabel(<span class="st">"SAT Participation Rate"</span>)</span>
+<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].legend(loc<span class="op">=</span><span class="st">"center right"</span>, title<span class="op">=</span><span class="st">"Location"</span>)</span>
+<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>ax[<span class="dv">1</span>].grid()</span>
+<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>plt.show()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-display">
+<div id="fig-sat_time" class="quarto-float quarto-figure quarto-figure-center anchored">
+<figure class="quarto-float quarto-float-fig figure">
+<div aria-describedby="fig-sat_time-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+<img src="final_files/figure-html/fig-sat_time-output-1.png" width="761" height="374" class="figure-img">
+</div>
+<figcaption class="quarto-float-caption-bottom quarto-float-caption quarto-float-fig" id="fig-sat_time-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
+Figure&nbsp;12: Average sat scores over time.
+</figcaption>
+</figure>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="conclusion" class="level1">
+<h1>Conclusion</h1>
+<p>The educational success of our students is one of the most critical priorities for our nation. To effectively address this challenge, we must look beyond headlines and political narratives and focus on objective indicators that reveal troubling and persistent trends in student achievement. Test scores are declining at every level, from elementary to high school. Rather than sensationalizing underperformance or manipulating state-by-state comparisons to mask the reality, we must confront the root causes of our academic decline. Even historically strong states like Massachusetts, while still outperforming much of the country, are showing signs of struggle when compared to past performance. It is my hope that the data presented here sheds light on the current state of education in the United States and sparks a deeper, more honest conversation about how to move forward.</p>
 <section id="acknowledgements" class="level2">
 <h2 class="anchored" data-anchor-id="acknowledgements">Acknowledgements</h2>
 <p>Thank you to Oscar for sharing code on how to <a href="https://dev.to/oscarleo/how-to-create-data-maps-of-the-united-states-with-matplotlib-p9i">create maps</a> of the US. Thank you to NCES and NAEP for developing the data used for the analysis.</p>
@@ -618,28 +737,28 @@ Figure&nbsp;9: College admissions test (SAT or ACT Equivalent) performance corre
 </section>
 <section id="tables" class="level1">
 <h1>Tables</h1>
-<div class="cell" data-execution_count="13">
+<div class="cell" data-execution_count="16">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>non_states <span class="op">=</span> [<span class="st">"DoDEA"</span>, <span class="st">"Puerto Rico"</span>, <span class="st">"District of Columbia"</span>, <span class="st">"National"</span>]</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_scores_df.query(<span class="st">"location not in @non_states"</span>)</span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>            .pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"total"</span>)</span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2024</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>            .reset_index()</span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>            )</span>
-<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2024 Rankings"</span></span>
-<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>non_states <span class="op">=</span> [<span class="st">"DoDEA"</span>, <span class="st">"Puerto Rico"</span>, <span class="st">"District of Columbia"</span>, <span class="st">"National"</span>]</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_scores_df.query(<span class="st">"location not in @non_states"</span>)</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>            .pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"total"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2024</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>            .reset_index()</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>            )</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2024 Rankings"</span></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="tbl-naep_table" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="13">
+<div id="tbl-naep_table" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="16">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-naep_table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;1: Total NAEP Scores by State
 </figcaption>
 <div aria-describedby="tbl-naep_table-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="13">
+<div class="cell-output cell-output-display" data-execution_count="16">
 <div>
 
 
@@ -1166,27 +1285,27 @@ Table&nbsp;1: Total NAEP Scores by State
 </figure>
 </div>
 </div>
-<div class="cell" data-execution_count="14">
+<div class="cell" data-execution_count="17">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>non_states <span class="op">=</span> [<span class="st">"District of Columbia"</span>, <span class="st">"United States"</span>]</span>
-<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>combined_corrected_scores_states <span class="op">=</span> combined_corrected_scores.query(</span>
-<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"location not in @non_states"</span>)</span>
-<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_corrected_scores_states.pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"anom_c"</span>)</span>
-<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2023</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a>            .reset_index())</span>
-<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2023 Rankings"</span></span>
-<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>non_states <span class="op">=</span> [<span class="st">"District of Columbia"</span>, <span class="st">"United States"</span>]</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>combined_corrected_scores_states <span class="op">=</span> combined_corrected_scores.query(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">"location not in @non_states"</span>)</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_corrected_scores_states.pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"anom_c"</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2023</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>            .reset_index())</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2023 Rankings"</span></span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="tbl-corrected_scores" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="14">
+<div id="tbl-corrected_scores" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="17">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-corrected_scores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;2: College admissions test (SAT or ACT Equivalent) performance corrected for state participtation levels.
 </figcaption>
 <div aria-describedby="tbl-corrected_scores-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="14">
+<div class="cell-output cell-output-display" data-execution_count="17">
 <div>
 
 
@@ -1764,23 +1883,23 @@ Table&nbsp;2: College admissions test (SAT or ACT Equivalent) performance correc
 </figure>
 </div>
 </div>
-<div class="cell" data-execution_count="15">
+<div class="cell" data-execution_count="18">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_corrected_scores_states.pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"SAT_mean"</span>)</span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2023</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>            .reset_index())</span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2023 Rankings"</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_corrected_scores_states.pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"SAT_mean"</span>)</span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2023</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>            .reset_index())</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2023 Rankings"</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="tbl-sat" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="15">
+<div id="tbl-sat" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="18">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-sat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;3: SAT performance by state
 </figcaption>
 <div aria-describedby="tbl-sat-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="15">
+<div class="cell-output cell-output-display" data-execution_count="18">
 <div>
 
 
@@ -2358,23 +2477,23 @@ Table&nbsp;3: SAT performance by state
 </figure>
 </div>
 </div>
-<div class="cell" data-execution_count="16">
+<div class="cell" data-execution_count="19">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_corrected_scores_states.pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"mean_y"</span>)</span>
-<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2023</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
-<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>            .reset_index())</span>
-<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2023 Rankings"</span></span>
-<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
-<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>rankings <span class="op">=</span> (combined_corrected_scores_states.pivot_table(index<span class="op">=</span><span class="st">"location"</span>, columns<span class="op">=</span><span class="st">"year"</span>, values<span class="op">=</span><span class="st">"mean_y"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>            .sort_values(<span class="dv">2023</span>, ascending<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>            .reset_index())</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>rankings.columns.name <span class="op">=</span> <span class="st">"2023 Rankings"</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>rankings.index <span class="op">=</span> rankings.index <span class="op">+</span> <span class="dv">1</span></span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>rankings.<span class="bu">round</span>(<span class="dv">1</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div id="tbl-act" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="16">
+<div id="tbl-act" class="cell quarto-float quarto-figure quarto-figure-center anchored" data-execution_count="19">
 <figure class="quarto-float quarto-float-tbl figure">
 <figcaption class="quarto-float-caption-top quarto-float-caption quarto-float-tbl" id="tbl-act-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
 Table&nbsp;4: ACT performance by state
 </figcaption>
 <div aria-describedby="tbl-act-caption-0ceaefa1-69ba-4598-a22c-09a6ac19f8ca">
-<div class="cell-output cell-output-display" data-execution_count="16">
+<div class="cell-output cell-output-display" data-execution_count="19">
 <div>
 
 
