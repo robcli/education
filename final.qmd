@@ -1,18 +1,14 @@
 ---
-title: "Massachusetts is #1 in Education, not Florida"
+title: "Educational Trends in America"
 format:
   html:
     code-fold: true
 jupyter: python3
 ---
 
-I was rage-baited by this [article](https://www.usnews.com/news/best-states/articles/2024-05-07/why-florida-is-the-best-state-in-education-and-economy) from U.S. News & World Report, which makes sweeping claims about Florida being the top state in both education and the economy. Adding to the hype were two celebratory press releases from Governor Ron DeSantis, [here](https://www.flgov.com/eog/news/press/2025/governor-ron-desantis-announces-positive-achievements-2025-school-grades) and [here](https://flgov.com/eog/news/press/2025/governor-ron-desantis-announces-student-academic-performance-continues-rise-during), touting supposed gains in Florida’s education system.
+I was reading by this [article](https://www.usnews.com/news/best-states/articles/2024-05-07/why-florida-is-the-best-state-in-education-and-economy) from U.S. News & World Report, which makes sweeping claims about Florida being the top state in both education and the economy. Adding to the hype were two celebratory press releases from Governor Ron DeSantis, [here](https://www.flgov.com/eog/news/press/2025/governor-ron-desantis-announces-positive-achievements-2025-school-grades) and [here](https://flgov.com/eog/news/press/2025/governor-ron-desantis-announces-student-academic-performance-continues-rise-during), touting supposed gains in Florida’s education system. 
 
-However, these claims rest almost entirely on state controlled assessments, where the state determines the content and standards. This raises valid concerns about the objectivity of the data being reported. A more reliable approach would be to examine trends in national standardized assessments, which offer consistent, independent measures across all states. When doing so, a very different picture emerges: Florida’s educational performance has, like much of the nation, declined over time. In contrast, Massachusetts consistently outperforms the rest of the country across nearly every national benchmark highlighting what genuine educational excellence looks like.
-
-Note: It's clear that the U.S. News & World Report article bases much of its education ranking on factors like the cost of higher education and graduation rates from two and four year colleges, metrics that are, frankly, questionable indicators of educational quality. Tuition costs alone are a poor measure without accounting for post-graduation outcomes. As U.S. News should already know from its own college rankings, return on investment, such as graduates’ average earnings, is a far more meaningful metric.
-
-Moreover, graduation rates don’t necessarily reflect academic strength. In some cases, unusually high graduation rates may raise concerns about the rigor and standards of the curriculum, rather than serve as evidence of educational excellence.
+However, these claims rest almost entirely on state controlled assessments, where the state determines the content and standards. This raises valid concerns about the objectivity of the data being reported. A more reliable approach would be to examine trends in national standardized assessments, which offer consistent, independent measures across all states. When doing so, a very different picture emerges: Florida’s educational performance has, like much of the nation, declined over time. The trends are stark and paint a clear message to our nation. Rather than cling onto rankings, we need to think more deeply about how we can invest in our future's generation.
 
 ### Load the data and requisite packages
 
