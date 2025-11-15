@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Massachusetts is #1 in Education, not Florida</title>
+<title>Educational Trends in America</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -121,7 +121,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Massachusetts is #1 in Education, not Florida</h1>
+<h1 class="title">Educational Trends in America</h1>
 </div>
 
 
@@ -138,13 +138,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p>I was rage-baited by this <a href="https://www.usnews.com/news/best-states/articles/2024-05-07/why-florida-is-the-best-state-in-education-and-economy">article</a> from U.S. News &amp; World Report, which makes sweeping claims about Florida being the top state in both education and the economy. Adding to the hype were two celebratory press releases from Governor Ron DeSantis, <a href="https://www.flgov.com/eog/news/press/2025/governor-ron-desantis-announces-positive-achievements-2025-school-grades">here</a> and <a href="https://flgov.com/eog/news/press/2025/governor-ron-desantis-announces-student-academic-performance-continues-rise-during">here</a>, touting supposed gains in Florida’s education system.</p>
-<p>However, these claims rest almost entirely on state controlled assessments, where the state determines the content and standards. This raises valid concerns about the objectivity of the data being reported. A more reliable approach would be to examine trends in national standardized assessments, which offer consistent, independent measures across all states. When doing so, a very different picture emerges: Florida’s educational performance has, like much of the nation, declined over time. In contrast, Massachusetts consistently outperforms the rest of the country across nearly every national benchmark highlighting what genuine educational excellence looks like.</p>
-<p>Note: It’s clear that the U.S. News &amp; World Report article bases much of its education ranking on factors like the cost of higher education and graduation rates from two and four year colleges, metrics that are, frankly, questionable indicators of educational quality. Tuition costs alone are a poor measure without accounting for post-graduation outcomes. As U.S. News should already know from its own college rankings, return on investment, such as graduates’ average earnings, is a far more meaningful metric.</p>
-<p>Moreover, graduation rates don’t necessarily reflect academic strength. In some cases, unusually high graduation rates may raise concerns about the rigor and standards of the curriculum, rather than serve as evidence of educational excellence.</p>
+<p>I was reading by this <a href="https://www.usnews.com/news/best-states/articles/2024-05-07/why-florida-is-the-best-state-in-education-and-economy">article</a> from U.S. News &amp; World Report, which makes sweeping claims about Florida being the top state in both education and the economy. Adding to the hype were two celebratory press releases from Governor Ron DeSantis, <a href="https://www.flgov.com/eog/news/press/2025/governor-ron-desantis-announces-positive-achievements-2025-school-grades">here</a> and <a href="https://flgov.com/eog/news/press/2025/governor-ron-desantis-announces-student-academic-performance-continues-rise-during">here</a>, touting supposed gains in Florida’s education system.</p>
+<p>However, these claims rest almost entirely on state controlled assessments, where the state determines the content and standards. This raises valid concerns about the objectivity of the data being reported. A more reliable approach would be to examine trends in national standardized assessments, which offer consistent, independent measures across all states. When doing so, a very different picture emerges: Florida’s educational performance has, like much of the nation, declined over time. The trends are stark and paint a clear message to our nation. Rather than cling onto rankings, we need to think more deeply about how we can invest in our future’s generation.</p>
 <section id="load-the-data-and-requisite-packages" class="level3">
 <h3 class="anchored" data-anchor-id="load-the-data-and-requisite-packages">Load the data and requisite packages</h3>
-<div id="688eceea" class="cell" data-execution_count="1">
+<div id="94634f3a" class="cell" data-execution_count="1">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
@@ -164,7 +162,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">"ignore"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="e98bb504" class="cell" data-execution_count="2">
+<div id="bfecbb69" class="cell" data-execution_count="2">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>states <span class="op">=</span> utils.us_map.main()</span>
@@ -179,7 +177,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>    naep_scores <span class="op">=</span> naep_scores.merge(scores.NAEPScores(path))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 </div>
-<div id="8231b15f" class="cell" data-execution_count="3">
+<div id="1f86bd4a" class="cell" data-execution_count="3">
 <details class="code-fold">
 <summary>Code</summary>
 <div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>s1 <span class="op">=</span> scores.SATScores(<span class="st">"data/sat/tabn226.40_17_18_19_20.xlsx"</span>)</span>
